@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('krs_detail', function (Blueprint $table) {
             $table->id();
             $table->foreignId('krs_id')->constrained('krs')->onDelete('cascade');
-            $table->foreignId('mata_kuliah_id')->constrained('mata_kuliah')->onDelete('cascade');
+            $table->foreignId('jadwal_id')->constrained('jadwals')->onDelete('cascade');
             $table->timestamps();
-        });
 
+            // Ensure a student doesn't add the same schedule twice in one KRS
+            $table->unique(['krs_id', 'jadwal_id']);
+        });
     }
 
     /**
