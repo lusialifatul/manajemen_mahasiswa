@@ -13,11 +13,31 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Buat User Admin
+        \App\Models\User::create([
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'role' => 'admin',
+            'password' => \Illuminate\Support\Facades\Hash::make('password'), // password: password
+            'email_verified_at' => now(),
+        ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Buat User Dosen Contoh
+        \App\Models\User::create([
+            'name' => 'Budi Dosen',
+            'email' => 'dosen@example.com',
+            'role' => 'dosen',
+            'password' => \Illuminate\Support\Facades\Hash::make('password'), // password: password
+            'email_verified_at' => now(),
+        ]);
+    
+        // Buat 5 User Mahasiswa Contoh
+        \App\Models\User::factory(5)->create();
+    
+        // Panggil Seeder Mata Kuliah
+        $this->call([
+            MataKuliahSeeder::class,
+            JadwalSeeder::class,
         ]);
     }
 }

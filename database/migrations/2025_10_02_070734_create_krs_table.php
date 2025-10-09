@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('krs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('mahasiswa_id')->constrained('mahasiswa')->onDelete('cascade');
-            $table->integer('semester');
-            $table->string('tahun_ajaran');
+            $table->foreignId('mahasiswa_id')->constrained('users')->onDelete('cascade');
+            $table->string('semester');
+            $table->string('tahun_akademik');
+            $table->unsignedTinyInteger('total_sks')->default(0);
+            $table->enum('status', ['draft', 'submitted', 'approved', 'rejected'])->default('draft');
+            $table->foreignId('dosen_pembimbing_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->text('catatan_revisi')->nullable();
             $table->timestamps();
         });
-
     }
 
     /**
