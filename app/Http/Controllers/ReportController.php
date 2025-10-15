@@ -40,32 +40,38 @@ class ReportController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $semester = $request->input('semester');
-        if (!$semester) {
-            return redirect()->back()->with('error', 'Semester diperlukan.');
+        $krs_id = $request->input('krs_id');
+        if (!$krs_id) {
+            return redirect()->back()->with('error', 'Silakan pilih riwayat semester terlebih dahulu.');
         }
 
-        // Convert numeric semester to 'Ganjil' or 'Genap'
-        $dbSemester = ((int)$semester % 2 !== 0) ? 'Ganjil' : 'Genap';
-
-        $krs = Krs::where('mahasiswa_id', $mahasiswa->id)
-                    ->where('semester', $dbSemester)
-                    ->with('krsDetails.mataKuliah')
-                    ->first();
+        // Find the specific KRS and load all necessary data
+        $krs = Krs::with(['krsDetails.jadwal.mataKuliah', 'dosenPembimbing'])
+                    ->where('mahasiswa_id', $mahasiswa->id) // Security check
+                    ->find($krs_id);
 
         if (!$krs) {
-            return redirect()->back()->with('error', 'Data KRS tidak ditemukan untuk semester ini.');
+            return redirect()->back()->with('error', 'Data KRS tidak ditemukan.');
         }
+
+        // The PDF view might need a 'semester' variable.
+        // We will pass the semester string from the KRS record.
+        $semester_label_for_view = $krs->semester;
 
         $data = [
             'mahasiswa' => $mahasiswa,
             'krs' => $krs,
-            'semester' => $semester,
-            'dosen_pembimbing' => $mahasiswa->dosenPembimbing,
+            'semester' => $semester_label_for_view,
+            'dosen_pembimbing' => $krs->dosenPembimbing,
         ];
 
         $pdf = PDF::loadView('reports.krs', $data);
-        return $pdf->download('KRS-' . $mahasiswa->nim . '-Semester-' . $semester . '.pdf');
+        
+        // Sanitize the filename
+        $safe_tahun_akademik = str_replace('/', '-', $krs->tahun_akademik);
+        $fileName = 'KRS-' . $mahasiswa->nim . '-' . $krs->semester . '-' . $safe_tahun_akademik . '.pdf';
+        
+        return $pdf->download($fileName);
     }
 
     public function generateKhs(Request $request, $mahasiswaId = null)
@@ -94,32 +100,38 @@ class ReportController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $semester = $request->input('semester');
-        if (!$semester) {
-            return redirect()->back()->with('error', 'Semester diperlukan.');
+        $krs_id = $request->input('krs_id');
+        if (!$krs_id) {
+            return redirect()->back()->with('error', 'Silakan pilih riwayat semester terlebih dahulu.');
         }
 
-        // Convert numeric semester to 'Ganjil' or 'Genap'
-        $dbSemester = ((int)$semester % 2 !== 0) ? 'Ganjil' : 'Genap';
-
-        $krs = Krs::where('mahasiswa_id', $mahasiswa->id)
-                    ->where('semester', $dbSemester)
-                    ->with('krsDetails.mataKuliah', 'krsDetails.nilai')
-                    ->first();
+        // Find the specific KRS and load all necessary data for the PDF view
+        $krs = Krs::with([
+                        'krsDetails.mataKuliah', // For course name, code, sks
+                        'krsDetails.nilai'       // For the grade
+                    ])
+                    ->where('mahasiswa_id', $mahasiswa->id) // Security check
+                    ->where('status', 'approved')
+                    ->find($krs_id);
 
         if (!$krs) {
-            return redirect()->back()->with('error', 'Data KHS tidak ditemukan untuk semester ini.');
+            return redirect()->back()->with('error', 'Data KHS tidak ditemukan atau belum disetujui.');
         }
+
+        // The PDF view expects a 'semester' variable. We'll pass the string from the KRS record.
+        $semester_label_for_view = $krs->semester;
 
         $data = [
             'mahasiswa' => $mahasiswa,
             'krs' => $krs,
-            'semester' => $semester,
+            'semester' => $semester_label_for_view,
             'dosen_pembimbing' => $mahasiswa->dosenPembimbing,
         ];
 
         $pdf = PDF::loadView('reports.khs', $data);
-        return $pdf->download('KHS-' . $mahasiswa->nim . '-Semester-' . $semester . '.pdf');
+        $safe_tahun_akademik = str_replace('/', '-', $krs->tahun_akademik);
+        $fileName = 'KHS-' . $mahasiswa->nim . '-' . $krs->semester . '-' . $safe_tahun_akademik . '.pdf';
+        return $pdf->download($fileName);
     }
 
     public function generateTranskrip(Request $request, $mahasiswaId = null)
@@ -204,6 +216,19 @@ class ReportController extends Controller
 
     public function showStudentSelectionForm()
     {
-        return view('reports.student_selection');
+        $mahasiswa = Auth::user()->mahasiswa;
+
+        if (!$mahasiswa) {
+            return redirect()->route('dashboard')->with('error', 'Data mahasiswa tidak ditemukan.');
+        }
+
+        // Get all approved KRS records for the student to build semester list
+        $krsHistory = Krs::where('mahasiswa_id', $mahasiswa->id)
+            ->where('status', 'approved')
+            ->orderBy('tahun_akademik', 'desc')
+            ->orderBy('semester', 'desc')
+            ->get();
+
+        return view('reports.student_selection', compact('krsHistory'));
     }
 }

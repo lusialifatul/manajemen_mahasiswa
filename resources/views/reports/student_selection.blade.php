@@ -28,14 +28,18 @@
                         </div>
 
                         <div id="semester_selection" class="mb-4 hidden">
-                            <x-input-label for="semester" :value="__('Pilih Semester (untuk KRS/KHS)')" />
-                            <select id="semester" name="semester" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                                <option value="">-- Pilih Semester --</option>
-                                @for ($i = 1; $i <= 14; $i++)
-                                    <option value="{{ $i }}">Semester {{ $i }}</option>
-                                @endfor
+                            <x-input-label for="krs_id" :value="__('Pilih Semester (untuk KRS/KHS)')" />
+                            <select id="krs_id" name="krs_id" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                <option value="">-- Pilih Riwayat Semester --</option>
+                                @forelse ($krsHistory as $krs)
+                                    <option value="{{ $krs->id }}">
+                                        Semester {{ $krs->semester }} - {{ $krs->tahun_akademik }}
+                                    </option>
+                                @empty
+                                    <option value="" disabled>Tidak ada riwayat KHS yang disetujui</option>
+                                @endforelse
                             </select>
-                            <x-input-error :messages="$errors->get('semester')" class="mt-2" />
+                            <x-input-error :messages="$errors->get('krs_id')" class="mt-2" />
                         </div>
 
                         <div class="flex items-center justify-end mt-6">
@@ -72,10 +76,10 @@
             reportTypeSelect.addEventListener('change', function () {
                 if (this.value === 'krs' || this.value === 'khs') {
                     semesterSelectionDiv.classList.remove('hidden');
-                    document.getElementById('semester').setAttribute('required', 'required');
+                    document.getElementById('krs_id').setAttribute('required', 'required');
                 } else {
                     semesterSelectionDiv.classList.add('hidden');
-                    document.getElementById('semester').removeAttribute('required');
+                    document.getElementById('krs_id').removeAttribute('required');
                 }
                 updateFormAction();
             });
