@@ -16,10 +16,12 @@
                         <!-- Mata Kuliah -->
                         <div class="mb-4">
                             <label for="mata_kuliah_id" class="block text-sm font-medium text-gray-700">Mata Kuliah</label>
-                            <select id="mata_kuliah_id" name="mata_kuliah_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" required>
+                            <select id="mata_kuliah_id" name="mata_kuliah_id" required>
                                 <option value="">Pilih Mata Kuliah</option>
                                 @foreach($mataKuliahs as $mk)
-                                    <option value="{{ $mk->id }}" {{ old('mata_kuliah_id', $jadwal->mata_kuliah_id) == $mk->id ? 'selected' : '' }}>{{ $mk->nama_mata_kuliah }}</option>
+                                    <option value="{{ $mk->id }}" {{ old('mata_kuliah_id', $jadwal->mata_kuliah_id) == $mk->id ? 'selected' : '' }}>
+                                        {{ $mk->kode_mk }} - {{ $mk->nama_mk }}
+                                    </option>
                                 @endforeach
                             </select>
                             @error('mata_kuliah_id')
@@ -30,10 +32,12 @@
                         <!-- Dosen -->
                         <div class="mb-4">
                             <label for="dosen_id" class="block text-sm font-medium text-gray-700">Dosen Pengampu</label>
-                            <select id="dosen_id" name="dosen_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" required>
+                            <select id="dosen_id" name="dosen_id" required>
                                 <option value="">Pilih Dosen</option>
                                 @foreach($dosens as $dosen)
-                                    <option value="{{ $dosen->id }}" {{ old('dosen_id', $jadwal->dosen_id) == $dosen->id ? 'selected' : '' }}>{{ $dosen->name }}</option>
+                                    <option value="{{ $dosen->id }}" {{ old('dosen_id', $jadwal->dosen_id) == $dosen->id ? 'selected' : '' }}>
+                                        {{ $dosen->name }}
+                                    </option>
                                 @endforeach
                             </select>
                             @error('dosen_id')
@@ -47,7 +51,9 @@
                             <select id="hari" name="hari" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" required>
                                 <option value="">Pilih Hari</option>
                                 @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'] as $day)
-                                    <option value="{{ $day }}" {{ old('hari', $jadwal->hari) == $day ? 'selected' : '' }}>{{ $day }}</option>
+                                    <option value="{{ $day }}" {{ old('hari', $jadwal->hari) == $day ? 'selected' : '' }}>
+                                        {{ $day }}
+                                    </option>
                                 @endforeach
                             </select>
                             @error('hari')
@@ -123,4 +129,26 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            new TomSelect('#mata_kuliah_id', {
+                create: false,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                }
+            });
+
+            new TomSelect('#dosen_id', {
+                create: false,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                }
+            });
+        });
+    </script>
+    @endpush
 </x-app-layout>

@@ -29,4 +29,9 @@ class Jadwal extends Model
     {
         return $this->belongsTo(User::class, 'dosen_id');
     }
+
+    public function krsDetails()
+    {
+        return $this->hasMany(KrsDetail::class);
+    }
 }

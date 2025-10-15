@@ -4,6 +4,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MataKuliahController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\NilaiController;
+use App\Http\Controllers\PengumumanController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,6 +39,50 @@ Route::middleware('auth')->group(function () {
 
     // Route for KRS
     Route::get('/krs', [App\Http\Controllers\KrsController::class, 'index'])->name('krs.index');
+    Route::post('/krs', [App\Http\Controllers\KrsController::class, 'store'])->name('krs.store');
+
+    // Grup Rute Khusus Dosen
+    Route::middleware(['auth', 'role:dosen'])->group(function () {
+        Route::get('/krs/review', [App\Http\Controllers\KrsReviewController::class, 'index'])->name('krs.review.index');
+        Route::get('/krs/review/{krs}', [App\Http\Controllers\KrsReviewController::class, 'show'])->name('krs.review.show');
+        Route::post('/krs/review/{krs}/approve', [App\Http\Controllers\KrsReviewController::class, 'approve'])->name('krs.review.approve');
+        Route::post('/krs/review/{krs}/reject', [App\Http\Controllers\KrsReviewController::class, 'reject'])->name('krs.review.reject');
+    });
+
+    // Grup Rute Khusus Dosen & Admin
+    Route::middleware(['auth', 'role:dosen,admin'])->group(function () {
+        // Rute untuk Input Nilai
+        Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai.index');
+        Route::post('/nilai', [NilaiController::class, 'store'])->name('nilai.store');
+
+        // Rute untuk melihat mata kuliah yang diampu
+        Route::get('/dosen/mata-kuliah', [MataKuliahController::class, 'showMyCourses'])->name('matakuliah.my_courses');
+    });
+
+    // Route for KHS (Mahasiswa)
+    Route::middleware('role:mahasiswa')->group(function () {
+        Route::get('/khs', [App\Http\Controllers\KhsController::class, 'index'])->name('khs.index');
+    });
+
+    // Notification Routes
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/{pengumuman}/read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+
+    // Report Routes for Mahasiswa
+    Route::middleware('role:mahasiswa')->group(function () {
+        Route::get('/reports/selection', [ReportController::class, 'showStudentSelectionForm'])->name('reports.selection');
+        Route::get('/reports/krs', [ReportController::class, 'generateKrs'])->name('reports.krs');
+        Route::get('/reports/khs', [ReportController::class, 'generateKhs'])->name('reports.khs');
+        Route::get('/reports/transkrip', [ReportController::class, 'generateTranskrip'])->name('reports.transkrip');
+    });
+
+    // Report Routes for Admin
+    Route::middleware('role:admin')->group(function () {
+        Route::get('/reports/krs/{mahasiswaId}', [ReportController::class, 'generateKrs'])->name('admin.reports.krs');
+        Route::get('/reports/khs/{mahasiswaId}', [ReportController::class, 'generateKhs'])->name('admin.reports.khs');
+        Route::get('/reports/transkrip/{mahasiswaId}', [ReportController::class, 'generateTranskrip'])->name('admin.reports.transkrip');
+    });
 });
 
 // Grup Rute Khusus Admin
@@ -48,6 +96,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // Rute untuk fitur Mata Kuliah
     Route::resource('matakuliah', MataKuliahController::class);
 
+    // Rute untuk fitur Manajemen Mahasiswa
+    Route::resource('mahasiswa', App\Http\Controllers\MahasiswaController::class)->except(['show']);
+
+    // Rute untuk fitur Pengumuman
+    Route::resource('pengumuman', PengumumanController::class);
+
+    // Rute untuk pemilihan laporan admin
+    Route::get('/admin/reports/selection', [ReportController::class, 'showAdminSelectionForm'])->name('admin.reports.selection');
 
 });
 

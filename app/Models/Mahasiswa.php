@@ -19,7 +19,10 @@ class Mahasiswa extends Model
 
     protected $fillable = [
         'user_id',
+        'dosen_pembimbing_id',
         'nim',
+        'semester_aktif',
+        'ipk',
         'nama_lengkap',
         'tgl_lahir',
         'gender',
@@ -32,5 +35,10 @@ class Mahasiswa extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function dosenPembimbing()
+    {
+        return $this->belongsTo(User::class, 'dosen_pembimbing_id');
     }
 }

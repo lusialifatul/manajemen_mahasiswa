@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\MataKuliah;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MataKuliahController extends Controller
 {
@@ -21,7 +23,7 @@ class MataKuliahController extends Controller
         $matakuliahs = MataKuliah::query()
             ->when($search, function ($query, $search) {
                 return $query->where('nama_mk', 'like', "%{$search}%")
-                             ->orWhere('kode_mk', 'like', "%{$search}%");
+                            ->orWhere('kode_mk', 'like', "%{$search}%");
             })
             ->when($filterSemester, function ($query, $filterSemester) {
                 return $query->where('semester', $filterSemester);
@@ -106,5 +108,55 @@ class MataKuliahController extends Controller
         $matakuliah->delete();
     
         return redirect()->route('matakuliah.index')->with('success', 'Data mata kuliah berhasil dihapus.');
+    }
+
+    public function showMyCourses(Request $request)
+    {
+        $user = Auth::user();
+        $dosens = collect();
+        $selectedDosenId = null;
+        $groupedCourses = collect();
+        $dosenId = null;
+
+        if ($user->role === 'admin') {
+            $dosens = User::where('role', 'dosen')->orderBy('name')->get();
+            $selectedDosenId = $request->query('dosen_id');
+            if ($selectedDosenId) {
+                $dosenId = $selectedDosenId;
+            }
+        } else { // Dosen
+            $dosenId = $user->id;
+        }
+
+        if ($dosenId) {
+            // Ambil semua jadwal yang diajar oleh dosen ini, beserta relasi yang diperlukan
+            $jadwals = \App\Models\Jadwal::where('dosen_id', $dosenId)
+                ->with(['mataKuliah', 'krsDetails'])
+                ->orderBy('tahun_akademik', 'desc')
+                ->orderBy('semester', 'desc')
+                ->get();
+
+            // Kelompokkan jadwal berdasarkan mata kuliah untuk menghilangkan duplikasi
+            $groupedCourses = $jadwals->groupBy('mata_kuliah_id')->map(function ($jadwalsForCourse) {
+                $firstJadwal = $jadwalsForCourse->first();
+                $totalMahasiswa = $jadwalsForCourse->sum(function ($jadwal) {
+                    return $jadwal->krsDetails->count();
+                });
+
+                return (
+                    (object) [
+                        'mataKuliah' => $firstJadwal->mataKuliah,
+                        'jadwals' => $jadwalsForCourse,
+                        'totalMahasiswa' => $totalMahasiswa,
+                    ]
+                );
+            });
+        }
+
+        return view('matakuliah.my_courses', [
+            'groupedCourses' => $groupedCourses,
+            'dosens' => $dosens,
+            'selectedDosenId' => $selectedDosenId,
+        ]);
     }
 }

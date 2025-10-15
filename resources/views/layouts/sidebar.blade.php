@@ -26,34 +26,49 @@
                 <i class="fas fa-users-cog text-xl w-8 text-center"></i>
                 <span x-show="isExpanded" class="ml-4 font-semibold">Manajemen User</span>
             </a>
-            <a href="{{ route('matakuliah.index') }}" title="Mata Kuliah" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300 {{ request()->routeIs('matakuliah.*') ? 'bg-[#40916C] text-white' : '' }}" :class="isExpanded ? 'px-6' : 'justify-center'">
-                <i class="fas fa-book text-xl w-8 text-center"></i>
-                <span x-show="isExpanded" class="ml-4 font-semibold">Mata Kuliah</span>
+            <a href="{{ route('mahasiswa.index') }}" title="Data Mahasiswa" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300 {{ request()->routeIs('mahasiswa.*') ? 'bg-[#40916C] text-white' : '' }}" :class="isExpanded ? 'px-6' : 'justify-center'">
+                <i class="fas fa-user-graduate text-xl w-8 text-center"></i>
+                <span x-show="isExpanded" class="ml-4 font-semibold">Data Mahasiswa</span>
+            </a>
+            <a href="{{ route('pengumuman.index') }}" title="Manajemen Pengumuman" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300 {{ request()->routeIs('pengumuman.*') ? 'bg-[#40916C] text-white' : '' }}" :class="isExpanded ? 'px-6' : 'justify-center'">
+                <i class="fas fa-bullhorn text-xl w-8 text-center"></i>
+                <span x-show="isExpanded" class="ml-4 font-semibold">Manajemen Pengumuman</span>
+            </a>
+            <a href="{{ route('matakuliah.my_courses') }}" title="Mata Kuliah Diampu" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300 {{ request()->routeIs('matakuliah.my_courses') ? 'bg-[#40916C] text-white' : '' }}" :class="isExpanded ? 'px-6' : 'justify-center'">
+                <i class="fas fa-chalkboard-teacher text-xl w-8 text-center"></i>
+                <span x-show="isExpanded" class="ml-4 font-semibold">Mata Kuliah Diampu</span>
+            </a>
+            <a href="{{ route('nilai.index') }}" title="Input Nilai" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300 {{ request()->routeIs('nilai.*') ? 'bg-[#40916C] text-white' : '' }}" :class="isExpanded ? 'px-6' : 'justify-center'">
+                <i class="fas fa-pen-alt text-xl w-8 text-center"></i>
+                <span x-show="isExpanded" class="ml-4 font-semibold">Input Nilai</span>
             </a>
             <a href="{{ route('krs.index') }}" title="KRS & Nilai" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300 {{ request()->routeIs('krs.*') ? 'bg-[#40916C] text-white' : '' }}" :class="isExpanded ? 'px-6' : 'justify-center'">
                 <i class="fas fa-graduation-cap text-xl w-8 text-center"></i>
                 <span x-show="isExpanded" class="ml-4 font-semibold">Kartu Rencana Studi</span>
             </a>
-            <a href="#" title="Laporan" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300" :class="isExpanded ? 'px-6' : 'justify-center'">
-                <i class="fas fa-print text-xl w-8 text-center"></i>
-                <span x-show="isExpanded" class="ml-4 font-semibold">Laporan</span>
-            </a>
             <a href="{{ route('jadwal.index') }}" title="Jadwal Kuliah" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300" :class="isExpanded ? 'px-6' : 'justify-center'">
                 <i class="fas fa-calendar-alt text-xl w-8 text-center"></i>
                 <span x-show="isExpanded" class="ml-4 font-semibold">Jadwal Kuliah</span>
             </a>
+            <a href="{{ route('admin.reports.selection') }}" title="Laporan Mahasiswa" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300 {{ request()->routeIs('admin.reports.*') ? 'bg-[#40916C] text-white' : '' }}" :class="isExpanded ? 'px-6' : 'justify-center'">
+                <i class="fas fa-file-alt text-xl w-8 text-center"></i>
+                <span x-show="isExpanded" class="ml-4 font-semibold">Laporan Mahasiswa</span>
+            </a>
 
         @elseif(Auth::user()->role == 'dosen')
-            {{-- SIDEBAR DOSEN --}}
             <a href="#" title="Dashboard" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300" :class="isExpanded ? 'px-6' : 'justify-center'">
                 <i class="fas fa-home text-xl w-8 text-center"></i>
                 <span x-show="isExpanded" class="ml-4 font-semibold">Dashboard</span>
             </a>
-            <a href="#" title="Mata Kuliah Saya" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300" :class="isExpanded ? 'px-6' : 'justify-center'">
+            <a href="{{ route('krs.review.index') }}" title="Persetujuan KRS" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300 {{ request()->routeIs('krs.review.*') ? 'bg-[#40916C] text-white' : '' }}" :class="isExpanded ? 'px-6' : 'justify-center'">
+                <i class="fas fa-file-signature text-xl w-8 text-center"></i>
+                <span x-show="isExpanded" class="ml-4 font-semibold">Persetujuan KRS</span>
+            </a>
+            <a href="{{ route('matakuliah.my_courses') }}" title="Mata Kuliah Saya" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300 {{ request()->routeIs('matakuliah.my_courses') ? 'bg-[#40916C] text-white' : '' }}" :class="isExpanded ? 'px-6' : 'justify-center'">
                 <i class="fas fa-chalkboard-teacher text-xl w-8 text-center"></i>
                 <span x-show="isExpanded" class="ml-4 font-semibold">Mata Kuliah</span>
             </a>
-            <a href="#" title="Input Nilai" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300" :class="isExpanded ? 'px-6' : 'justify-center'">
+            <a href="{{ route('nilai.index') }}" title="Input Nilai" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300 {{ request()->routeIs('nilai.*') ? 'bg-[#40916C] text-white' : '' }}" :class="isExpanded ? 'px-6' : 'justify-center'">
                 <i class="fas fa-pen-alt text-xl w-8 text-center"></i>
                 <span x-show="isExpanded" class="ml-4 font-semibold">Input Nilai</span>
             </a>
@@ -76,13 +91,17 @@
                 <i class="fas fa-edit text-xl w-8 text-center"></i>
                 <span x-show="isExpanded" class="ml-4 font-semibold">Isi KRS</span>
             </a>
-            <a href="#" title="Kartu Hasil Studi (KHS)" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300" :class="isExpanded ? 'px-6' : 'justify-center'">
+            <a href="{{ route('khs.index') }}" title="Kartu Hasil Studi (KHS)" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300 {{ request()->routeIs('khs.*') ? 'bg-[#40916C] text-white' : '' }}" :class="isExpanded ? 'px-6' : 'justify-center'">
                 <i class="fas fa-poll text-xl w-8 text-center"></i>
                 <span x-show="isExpanded" class="ml-4 font-semibold">Lihat KHS</span>
             </a>
             <a href="{{ route('jadwal.index') }}" title="Jadwal Kuliah" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300" :class="isExpanded ? 'px-6' : 'justify-center'">
                 <i class="fas fa-calendar-alt text-xl w-8 text-center"></i>
                 <span x-show="isExpanded" class="ml-4 font-semibold">Jadwal Kuliah</span>
+            </a>
+            <a href="{{ route('reports.selection') }}" title="Laporan" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300 {{ request()->routeIs('reports.*') ? 'bg-[#40916C] text-white' : '' }}" :class="isExpanded ? 'px-6' : 'justify-center'">
+                <i class="fas fa-print text-xl w-8 text-center"></i>
+                <span x-show="isExpanded" class="ml-4 font-semibold">Laporan</span>
             </a>
         @endif
     </nav>
@@ -93,7 +112,7 @@
         <a href="{{ route('logout') }}" 
         onclick="event.preventDefault(); this.closest('form').submit();" 
         title="Logout" 
-        class="flex items-center py-3 rounded-md hover:bg-red-500 hover:text-white transition-colors duration-300" :class="isExpanded ? 'px-6' : 'justify-center'">
+        class="flex items-center py-3 rounded-md text-[#B7E4C7] hover:bg-red-500 hover:text-white transition-colors duration-300" :class="isExpanded ? 'px-6' : 'justify-center'">
             <i class="fas fa-sign-out-alt text-xl w-8 text-center"></i>
             <span x-show="isExpanded" class="ml-4 font-semibold">Logout</span>
         </a>

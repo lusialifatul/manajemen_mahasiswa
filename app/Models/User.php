@@ -12,12 +12,21 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
+        public function pengumuman()
+        {
+            return $this->belongsToMany(Pengumuman::class, 'notifikasi_user')->withPivot('read_at')->withTimestamps();
+        }
+    
+        public function notifikasiBelumDibaca()
+        {
+            return $this->pengumuman()->wherePivotNull('read_at');
+        }
+    
+        /**
+         * The attributes that are mass assignable.
+         *
+         * @var list<string>
+         */    protected $fillable = [
         'name',
         'email',
         'password',
@@ -58,5 +67,13 @@ class User extends Authenticatable
     public function mahasiswa()
     {
         return $this->hasOne(Mahasiswa::class);
+    }
+
+    /**
+     * Get all the mahasiswa records guided by the user (dosen).
+     */
+    public function mahasiswaBimbingan()
+    {
+        return $this->hasMany(Mahasiswa::class, 'dosen_pembimbing_id');
     }
 }
