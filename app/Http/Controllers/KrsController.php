@@ -24,7 +24,7 @@ class KrsController extends Controller
         $mahasiswa = Mahasiswa::with('dosenPembimbing')->where('user_id', Auth::id())->first();
 
         // Find if a KRS already exists for the current period
-        $existingKrs = Krs::where('mahasiswa_id', Auth::id())
+        $existingKrs = Krs::where('mahasiswa_id', $mahasiswa->id)
                         ->where('tahun_akademik', '2025/2026') // TODO: Make this dynamic
                         ->where('semester', 'Ganjil') // TODO: Make this dynamic
                         ->latest()
@@ -97,12 +97,6 @@ class KrsController extends Controller
         $krs->save();
 
         // Create notification for the advisor
-        Log::info('Attempting to create notification for advisor.', [
-            'dosen_pembimbing_id' => $mahasiswa->dosen_pembimbing_id,
-            'mahasiswa_name' => $user->name,
-            'krs_id' => $krs->id,
-        ]);
-
         try {
             Notification::create([
                 'user_id' => $mahasiswa->dosen_pembimbing_id,

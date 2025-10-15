@@ -20,6 +20,18 @@
                 </div>
             @endif
 
+            <!-- Validation Errors -->
+            @if ($errors->any())
+                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
+                    <p class="font-bold">Terdapat beberapa kesalahan:</p>
+                    <ul class="mt-2 list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             @if($existingKrs && ($existingKrs->status == 'submitted' || $existingKrs->status == 'approved'))
                 <div class="bg-white overflow-hidden shadow-md sm:rounded-lg mb-6">
                     <div class="p-6 text-gray-900">
@@ -39,14 +51,6 @@
                 </div>
             @else
                 <!-- Form Pengisian KRS (ditampilkan jika belum ada KRS atau ditolak) -->
-                <form id="krs-form" method="POST" action="{{ route('krs.store') }}">
-                    @csrf
-                    <input type="hidden" name="jadwal_ids" id="jadwal_ids_input">
-
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <!-- Konten form disini -->
-                    </div>
-                </form>
             @endif
 
             <!-- Informasi Mahasiswa -->

@@ -13,9 +13,9 @@
                     <h3 class="text-lg font-semibold mb-4">Informasi Mahasiswa</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <p><strong>Nama:</strong> {{ $krs->mahasiswa->name }}</p>
-                            <p><strong>NIM:</strong> {{ $krs->mahasiswa->mahasiswa->nim ?? 'N/A' }}</p>
-                            <p><strong>IPK:</strong> <span class="font-semibold">{{ number_format($krs->mahasiswa->mahasiswa->ipk ?? 0, 2) }}</span></p>
+                            <p><strong>Nama:</strong> {{ $krs->mahasiswa->user->name ?? 'N/A' }}</p>
+                            <p><strong>NIM:</strong> {{ $krs->mahasiswa->nim ?? 'N/A' }}</p>
+                            <p><strong>IPK:</strong> <span class="font-semibold">{{ number_format($krs->mahasiswa->ipk ?? 0, 2) }}</span></p>
                         </div>
                         <div>
                             <p><strong>Tahun Akademik:</strong> {{ $krs->tahun_akademik }}</p>

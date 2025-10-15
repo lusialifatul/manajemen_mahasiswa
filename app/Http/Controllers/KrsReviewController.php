@@ -6,6 +6,7 @@ use App\Models\Krs;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class KrsReviewController extends Controller
 {
@@ -50,12 +51,21 @@ class KrsReviewController extends Controller
 
         $krs->update(['status' => 'approved']);
 
-        // Create notification for the student
-        Notification::create([
-            'user_id' => $krs->mahasiswa_id,
-            'message' => 'KRS Anda telah disetujui oleh Dosen Pembimbing.',
-            'link' => route('krs.index') // Or a link to a KRS history page
-        ]);
+        $mahasiswa = $krs->mahasiswa;
+
+        if ($mahasiswa && $mahasiswa->user_id) {
+            Notification::create([
+                'user_id' => $mahasiswa->user_id,
+                'message' => 'KRS Anda telah disetujui oleh Dosen Pembimbing.',
+                'link' => route('krs.index')
+            ]);
+        } else {
+            // Log an error if the student relationship is broken
+            Log::error("Gagal membuat notifikasi persetujuan KRS: Relasi mahasiswa tidak ditemukan atau user_id kosong.", [
+                'krs_id' => $krs->id,
+                'mahasiswa_id_in_krs' => $krs->mahasiswa_id,
+            ]);
+        }
 
         return redirect()->route('krs.review.index')->with('success', 'KRS telah disetujui.');
     }
@@ -80,7 +90,7 @@ class KrsReviewController extends Controller
 
         // Create notification for the student
         Notification::create([
-            'user_id' => $krs->mahasiswa_id,
+            'user_id' => $krs->mahasiswa->user_id,
             'message' => 'KRS Anda ditolak. Silakan periksa catatan revisi.',
             'link' => route('krs.index')
         ]);

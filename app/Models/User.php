@@ -16,10 +16,15 @@ class User extends Authenticatable
         {
             return $this->belongsToMany(Pengumuman::class, 'notifikasi_user')->withPivot('read_at')->withTimestamps();
         }
-    
-        public function notifikasiBelumDibaca()
+
+        public function unreadAnnouncements()
         {
             return $this->pengumuman()->wherePivotNull('read_at');
+        }
+
+        public function unreadKrsNotifications()
+        {
+            return $this->notifications()->whereNull('read_at');
         }
     
         /**
@@ -75,5 +80,13 @@ class User extends Authenticatable
     public function mahasiswaBimbingan()
     {
         return $this->hasMany(Mahasiswa::class, 'dosen_pembimbing_id');
+    }
+
+    /**
+     * Get all of the notifications for the user.
+     */
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
     }
 }

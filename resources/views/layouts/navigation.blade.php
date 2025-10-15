@@ -42,14 +42,11 @@
                         <div class="block px-4 py-2 text-xs text-gray-700">
                             Notifikasi
                         </div>
-                        @forelse($latestUnreadNotifications as $notification)
-                            <form method="POST" action="{{ route('notifications.markAsRead', $notification->id) }}">
-                                @csrf
-                                <x-dropdown-link href="#" onclick="event.preventDefault(); this.closest('form').submit();">
-                                    <p class="text-sm text-gray-900 font-semibold">{{ $notification->judul }}</p>
-                                    <p class="text-xs text-gray-500">{{ $notification->created_at->diffForHumans() }}</p>
-                                </x-dropdown-link>
-                            </form>
+                        @forelse($latestNotifications as $notification)
+                            <x-dropdown-link :href="$notification['link']">
+                                <p class="text-sm text-gray-900 font-semibold">{{ $notification['message'] }}</p>
+                                <p class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($notification['created_at'])->diffForHumans() }}</p>
+                            </x-dropdown-link>
                         @empty
                             <div class="px-4 py-2 text-sm text-gray-900">Tidak ada notifikasi baru</div>
                         @endforelse

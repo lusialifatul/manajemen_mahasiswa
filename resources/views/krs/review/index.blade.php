@@ -32,7 +32,7 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse ($krsSubmissions as $krs)
                                     <tr class="hover:bg-[#d8f3dc] transition-colors duration-150">
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $krs->mahasiswa->nama_lengkap ?? 'N/A' }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $krs->mahasiswa->user->name ?? 'N/A' }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $krs->mahasiswa->nim ?? 'N/A' }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap font-semibold">{{ number_format($krs->mahasiswa->ipk ?? 0, 2) }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $krs->created_at->format('d M Y') }}</td>

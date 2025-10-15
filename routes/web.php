@@ -41,10 +41,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/krs', [App\Http\Controllers\KrsController::class, 'index'])->name('krs.index');
     Route::post('/krs', [App\Http\Controllers\KrsController::class, 'store'])->name('krs.store');
 
+    // Route for KRS review show, accessible for URL generation
+    Route::get('/krs/review/{krs}', [App\Http\Controllers\KrsReviewController::class, 'show'])->name('krs.review.show');
+
     // Grup Rute Khusus Dosen
     Route::middleware(['auth', 'role:dosen'])->group(function () {
         Route::get('/krs/review', [App\Http\Controllers\KrsReviewController::class, 'index'])->name('krs.review.index');
-        Route::get('/krs/review/{krs}', [App\Http\Controllers\KrsReviewController::class, 'show'])->name('krs.review.show');
         Route::post('/krs/review/{krs}/approve', [App\Http\Controllers\KrsReviewController::class, 'approve'])->name('krs.review.approve');
         Route::post('/krs/review/{krs}/reject', [App\Http\Controllers\KrsReviewController::class, 'reject'])->name('krs.review.reject');
     });
