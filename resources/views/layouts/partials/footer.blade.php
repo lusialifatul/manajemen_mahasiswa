@@ -14,70 +14,64 @@
         </div>
         <div class="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
             <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                <h2 class="title-font font-medium text-[#40916C] tracking-widest text-sm mb-3">CATEGORIES</h2>
+                <h2 class="title-font font-medium text-[#40916C] tracking-widest text-sm mb-3">TENTANG KAMI</h2>
                 <nav class="list-none mb-10">
                     <li>
-                        <a class="text-gray-600 hover:text-[#40916C]">First Link</a>
+                        <a class="text-gray-600 hover:text-[#40916C]">Profil SIMA</a>
                     </li>
                     <li>
-                        <a class="text-gray-600 hover:text-[#40916C]">Second Link</a>
+                        <a class="text-gray-600 hover:text-[#40916C]">Visi & Misi</a>
                     </li>
                     <li>
-                        <a class="text-gray-600 hover:text-[#40916C]">Third Link</a>
+                        <a class="text-gray-600 hover:text-[#40916C]">Tim Pengembang</a>
                     </li>
                     <li>
-                        <a class="text-gray-600 hover:text-[#40916C]">Fourth Link</a>
+                        <a class="text-gray-600 hover:text-[#40916C]">Kontak</a>
                     </li>
                 </nav>
             </div>
             <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                <h2 class="title-font font-medium text-[#40916C] tracking-widest text-sm mb-3">CATEGORIES</h2>
+                <h2 class="title-font font-medium text-[#40916C] tracking-widest text-sm mb-3">LAYANAN</h2>
                 <nav class="list-none mb-10">
                     <li>
-                        <a class="text-gray-600 hover:text-[#40916C]">First Link</a>
+                        <a class="text-gray-600 hover:text-[#40916C]">Mata Kuliah</a>
                     </li>
                     <li>
-                        <a class="text-gray-600 hover:text-[#40916C]">Second Link</a>
+                        <a class="text-gray-600 hover:text-[#40916C]">Jadwal Kuliah</a>
                     </li>
                     <li>
-                        <a class="text-gray-600 hover:text-[#40916C]">Third Link</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-[#40916C]">Fourth Link</a>
+                        <a class="text-gray-600 hover:text-[#40916C]">Kegiatan Kampus</a>
                     </li>
                 </nav>
             </div>
             <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                <h2 class="title-font font-medium text-[#40916C] tracking-widest text-sm mb-3">CATEGORIES</h2>
+                <h2 class="title-font font-medium text-[#40916C] tracking-widest text-sm mb-3">BANTUAN</h2>
                 <nav class="list-none mb-10">
                     <li>
-                        <a class="text-gray-600 hover:text-[#40916C]">First Link</a>
+                        <a class="text-gray-600 hover:text-[#40916C]">Panduan</a>
                     </li>
                     <li>
-                        <a class="text-gray-600 hover:text-[#40916C]">Second Link</a>
+                        <a class="text-gray-600 hover:text-[#40916C]">FAQ</a>
                     </li>
                     <li>
-                        <a class="text-gray-600 hover:text-[#40916C]">Third Link</a>
+                        <a class="text-gray-600 hover:text-[#40916C]">Hubungi Admin</a>
                     </li>
                     <li>
-                        <a class="text-gray-600 hover:text-[#40916C]">Fourth Link</a>
+                        <a class="text-gray-600 hover:text-[#40916C]">Kebijakan Privasi</a>
                     </li>
                 </nav>
             </div>
             <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                <h2 class="title-font font-medium text-[#40916C] tracking-widest text-sm mb-3">CATEGORIES</h2>
+                <h2 class="title-font font-medium text-[#40916C] tracking-widest text-sm mb-3">INFORMASI</h2>
                 <nav class="list-none mb-10">
                     <li>
-                        <a class="text-gray-600 hover:text-[#40916C]">First Link</a>
+                        <a class="text-gray-600 hover:text-[#40916C]">Blog & Artikel</a>
                     </li>
                     <li>
-                        <a class="text-gray-600 hover:text-[#40916C]">Second Link</a>
+                        <a class="text-gray-600 hover:text-[#40916C]">Berita Kampus</a>
                     </li>
                     <li>
-                        <a class="text-gray-600 hover:text-[#40916C]">Third Link</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-[#40916C]">Fourth Link</a>
+                        <a class="text-gray-600 hover:text-[#40916C]">Event Terbaru</a>
                     </li>
                 </nav>
             </div>
