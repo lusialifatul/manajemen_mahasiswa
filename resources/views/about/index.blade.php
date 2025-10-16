@@ -13,25 +13,24 @@
                 <div class="flex flex-col space-y-16">
                     <div class="flex flex-col md:flex-row items-center md:items-start md:space-x-8">
                         <div class="md:w-1/2 mb-6 md:mb-0">
-                            <img src="https://images.unsplash.com/photo-1598257006626-48b0c252070d?auto=format&fit=crop&w=800&q=80"
+                            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWFuYWdlbWVudHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600"
                                 alt="Macintosh" class="rounded-2xl shadow-lg w-full h-full object-cover" />
                         </div>
                         <div class="md:w-1/2 text-gray-800">
-                            <time class="block italic text-gray-500 mb-2">1984</time>
-                            <h2 class="text-2xl font-medium mb-4 text-[#40916C]">First Macintosh Computer</h2>
+                            <time class="block italic text-gray-500 mb-2">2 Oktober 2025</time>
+                            <h2 class="text-2xl font-medium mb-4 text-[#40916C]">Latar Belakang</h2>
                             <p class="text-gray-600 leading-relaxed">
-                                The Apple Macintosh—later rebranded as the Macintosh 128K—is the original Apple
-                                Macintosh personal computer. It played a pivotal role in establishing desktop
-                                publishing as a general office function. The motherboard, a 9-inch CRT monitor,
-                                and a floppy drive were housed in a beige case with integrated carrying handle;
-                                it came with a keyboard and single-button mouse.
+                                Proyek website manajemen mahasiswa ini dibuat sebagai portofolio kolaboratif antara dua
+                                orang dengan latar belakang software engineering dan statistika. Tujuan utamanya adalah
+                                mengembangkan sistem yang mampu mengelola data mahasiswa, mulai dari pencatatan hingga
+                                visualisasi data akademik.
                             </p>
                         </div>
                     </div>
 
                     <div class="flex flex-col md:flex-row items-center md:items-start md:space-x-8">
                         <div class="md:w-1/2 mb-6 md:mb-0">
-                            <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80"
+                            <img src="https://images.unsplash.com/photo-1573867639040-6dd25fa5f597?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170"
                                 alt="iMac" class="rounded-2xl shadow-lg w-full h-full object-cover" />
                         </div>
                         <div class="md:w-1/2 text-gray-800">
@@ -47,7 +46,7 @@
 
                     <div class="flex flex-col md:flex-row items-center md:items-start md:space-x-8">
                         <div class="md:w-1/2 mb-6 md:mb-0">
-                            <img src="https://images.unsplash.com/photo-1598257006626-48b0c252070d?auto=format&fit=crop&w=800&q=80"
+                            <img src="https://plus.unsplash.com/premium_photo-1678565869434-c81195861939?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170"
                                 alt="iPod" class="rounded-2xl shadow-lg w-full h-full object-cover" />
                         </div>
                         <div class="md:w-1/2 text-gray-800">
