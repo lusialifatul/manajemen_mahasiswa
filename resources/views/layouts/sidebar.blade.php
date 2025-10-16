@@ -18,7 +18,7 @@
     <nav class="flex flex-col space-y-4 text-[#B7E4C7] w-full">
         @if (Auth::user()->role == 'admin')
             {{-- SIDEBAR ADMIN --}}
-            <a href="#" title="Dashboard" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300" :class="isExpanded ? 'px-6' : 'justify-center'">
+            <a href="{{ route('dashboard') }}" title="Dashboard" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300" :class="isExpanded ? 'px-6' : 'justify-center'">
                 <i class="fas fa-home text-xl w-8 text-center"></i>
                 <span x-show="isExpanded" class="ml-4 font-semibold">Dashboard</span>
             </a>
@@ -79,7 +79,7 @@
 
         @elseif(Auth::user()->role == 'mahasiswa')
             {{-- SIDEBAR MAHASISWA --}}
-            <a href="#" title="Dashboard" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300" :class="isExpanded ? 'px-6' : 'justify-center'">
+            <a href="{{ route('dashboard') }}" title="Dashboard" class="flex items-center py-3 rounded-md hover:bg-[#40916C] hover:text-white transition-colors duration-300" :class="isExpanded ? 'px-6' : 'justify-center'">
                 <i class="fas fa-home text-xl w-8 text-center"></i>
                 <span x-show="isExpanded" class="ml-4 font-semibold">Dashboard</span>
             </a>

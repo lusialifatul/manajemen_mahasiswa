@@ -4,12 +4,78 @@ namespace App\Http\Controllers;
 
 use App\Models\Mahasiswa;
 use App\Models\User;
+use App\Models\Jadwal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Carbon\Carbon;
 
 class MahasiswaController extends Controller
 {
+    /**
+     * Display the student dashboard.
+     */
+    public function dashboard()
+    {
+        $user = Auth::user();
+
+        // Jika user bukan mahasiswa, redirect ke halaman profil atau halaman lain yang sesuai
+        if ($user->role !== 'mahasiswa') {
+            return redirect()->route('profile.edit'); // Atau rute lain yang sesuai untuk admin/dosen
+        }
+
+        $mahasiswa = Mahasiswa::with('dosenPembimbing')->where('user_id', $user->id)->firstOrFail();
+
+        // Konversi hari ini ke dalam bahasa Indonesia (sesuai format di seeder)
+        $dayOfWeekMap = [
+            'Sunday' => 'Minggu',
+            'Monday' => 'Senin',
+            'Tuesday' => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis',
+            'Friday' => 'Jumat',
+            'Saturday' => 'Sabtu',
+        ];
+        $todayInIndonesia = $dayOfWeekMap[Carbon::now()->format('l')];
+
+        // Ambil ID mata kuliah yang diambil mahasiswa di semester aktif
+        $krs = $mahasiswa->krs()
+            ->where('semester', $mahasiswa->semester_aktif)
+            ->with('details')
+            ->first();
+
+        $enrolledCourseIds = $krs?->details->pluck('mata_kuliah_id') ?? collect();
+
+        // Ambil jadwal hari ini berdasarkan mata kuliah yang diambil
+        $jadwalHariIni = Jadwal::with('mataKuliah', 'dosen')
+            ->whereIn('mata_kuliah_id', $enrolledCourseIds)
+            ->where('hari', $todayInIndonesia)
+            ->orderBy('waktu_mulai', 'asc')
+            ->get();
+
+        $totalSks = 0;
+        $allKrs = $mahasiswa->krs()->with(['krsDetails.mataKuliah', 'krsDetails.nilai'])->get();
+
+        foreach ($allKrs as $krsItem) {
+            foreach ($krsItem->krsDetails as $detail) {
+                if ($detail->nilai) {
+                    // Asumsi nilai lulus jika nilai_angka >= 2 (C ke atas)
+                    if ($detail->nilai->nilai_angka >= 2) {
+                        $totalSks += $detail->mataKuliah->sks;
+                    }
+                }
+            }
+        }
+
+        return view('dashboard', [
+            'mahasiswa' => $mahasiswa,
+            'jadwalHariIni' => $jadwalHariIni,
+            'totalSks' => $totalSks,
+        ]);
+    }
+
+
     /**
      * Display a listing of the resource.
      */

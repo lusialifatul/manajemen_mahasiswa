@@ -71,7 +71,7 @@
                             </p>
                             @endif
                         </div>
-                        <div>
+                        <div >
                             @if($mahasiswa)
                             <p><strong>Semester:</strong> {{ $mahasiswa->semester_aktif ?? '-' }}</p>
                             <p><strong>IPK:</strong> <span class="font-semibold text-green-600">{{ number_format($mahasiswa->ipk ?? 0, 2) }}</span></p>

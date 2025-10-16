@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Mahasiswa extends Model
 {
@@ -40,5 +41,13 @@ class Mahasiswa extends Model
     public function dosenPembimbing()
     {
         return $this->belongsTo(User::class, 'dosen_pembimbing_id');
+    }
+
+    /**
+     * Get the KRS records for the student.
+     */
+    public function krs(): HasMany
+    {
+        return $this->hasMany(Krs::class);
     }
 }
