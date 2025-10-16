@@ -20,8 +20,21 @@ class KrsController extends Controller
      */
     public function index()
     {
-        // Fetch student's profile with their advisor
-        $mahasiswa = Mahasiswa::with('dosenPembimbing')->where('user_id', Auth::id())->first();
+        $user = Auth::user();
+
+        // Handle Admin View
+        if ($user->hasRole('admin')) {
+            $allKrs = Krs::with(['mahasiswa.user', 'dosenPembimbing'])->latest()->paginate(15);
+            return view('krs.index', ['allKrs' => $allKrs]);
+        }
+
+        // Handle Mahasiswa View
+        $mahasiswa = Mahasiswa::with('dosenPembimbing')->where('user_id', $user->id)->first();
+
+        // Ensure the user is a registered student
+        if (!$mahasiswa) {
+            abort(403, 'Akses ditolak. Anda tidak terdaftar sebagai mahasiswa.');
+        }
 
         // Find if a KRS already exists for the current period
         $existingKrs = Krs::where('mahasiswa_id', $mahasiswa->id)
@@ -29,6 +42,10 @@ class KrsController extends Controller
                         ->where('semester', 'Ganjil') // TODO: Make this dynamic
                         ->latest()
                         ->first();
+
+        if ($existingKrs) {
+            $existingKrs->load('jadwals.mataKuliah', 'jadwals.dosen');
+        }
 
         // Fetch available schedules for the student's current semester
         $currentSemester = $mahasiswa->semester_aktif ?? 0;

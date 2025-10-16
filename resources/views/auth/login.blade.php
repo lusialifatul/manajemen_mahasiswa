@@ -19,7 +19,9 @@
             
             <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-2xl shadow-lg">
                 <div class="text-center">
-                    <h1 class="text-3xl font-bold text-[#081C15]">Login E-Akademik</h1>
+                    <div class="flex justify-center items-center gap-3">
+                        <img style="width:90px;height:40px" src="{{ asset('images/logo.svg') }}" alt="Icon">
+                    </div>
                     <p class="mt-2 text-gray-600">Selamat datang kembali</p>
                 </div>
 
