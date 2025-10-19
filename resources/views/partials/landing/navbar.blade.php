@@ -8,13 +8,13 @@
         <!-- Menu Tengah -->
         <ul class="hidden md:flex space-x-8">
             <li>
-                <a href="{{ url('/') }}" class="text-[#081C15] hover:text-[#40916C] font-medium">Home</a>
+                <a href="#" data-section="home" class="text-[#081C15] hover:text-[#40916C] font-medium nav-link">Home</a>
             </li>
             <li>
-                <a href="{{ url('about') }}" class="text-[#081C15] hover:text-[#40916C] font-medium">About</a>
+                <a href="#" data-section="about" class="text-[#081C15] hover:text-[#40916C] font-medium nav-link">About</a>
             </li>
             <li>
-                <a href="{{ url('contact') }}" class="text-[#081C15] hover:text-[#40916C] font-medium">Contact</a>
+                <a href="#" data-section="contact" class="text-[#081C15] hover:text-[#40916C] font-medium nav-link">Contact</a>
             </li>
         </ul>
 
